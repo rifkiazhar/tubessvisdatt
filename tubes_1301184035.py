@@ -22,15 +22,15 @@ from bokeh.layouts import WidgetBox, row, column
 from bokeh.models import Slider, Select
 from bokeh.models.widgets import Tabs, Panel, CheckboxGroup
 
-df2 = pd.read_csv('covid_19_indonesia_time_series_all.csv') #https://www.kaggle.com/hendratno/covid19-indonesia
+data = pd.read_csv('covid_19_indonesia_time_series_all.csv') #https://www.kaggle.com/hendratno/covid19-indonesia
 
-df2.head()
+data.head()
 
 
 
-df2.shape
+data.shape
 
-datasett = df2 [['Date', 'Location', 'New Cases', 'Total Cases', 'Total Deaths', 'Total Recovered']]
+datasett = data [['Date', 'Location', 'New Cases', 'Total Cases', 'Total Deaths', 'Total Recovered']]
 
 datasett["Date"] = pd.to_datetime(datasett['Date'])
 
