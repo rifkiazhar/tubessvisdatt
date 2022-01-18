@@ -77,7 +77,7 @@ fig = figure(x_axis_type='datetime',
                x_axis_label= 'Date', y_axis_label= 'Total Kasus')
 
 
-fig.yaxis.formatter = NumeralTickFormatter(format="00") 
+#fig.yaxis.formatter = NumeralTickFormatter(format="00") 
 
 fig.line('Date', 'Total Cases',
                   color='#CE1141', legend_label='Total Kasus di Indonesia',
