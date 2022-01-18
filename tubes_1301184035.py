@@ -10,7 +10,6 @@ Original file is located at
 #Data handing
 import pandas as pd
 import numpy as np
-import rasterio 
 
 #Bokeh libraries
 #from bokeh.io import curdoc
@@ -33,7 +32,7 @@ data.shape
 
 datasett = data [['Date', 'Location', 'New Cases', 'Total Cases', 'Total Deaths', 'Total Recovered']]
 
-datasett["Date"] = pd.to_datetime(datasett['Date'])
+datasett["Date"] = pd.to_datetime(datasett["Date"])
 
 datasett.head()
 
@@ -97,7 +96,7 @@ def update_fitur(attr, old, new):
 
    new_src = create_data(region_plot, cases)
 
-   src.datasett.update(new_src.datasett)
+   src.data.update(new_src.data)
 
 region_selection = CheckboxGroup(labels=region, active=[0])
 region_selection.on_change('active', update_region)
