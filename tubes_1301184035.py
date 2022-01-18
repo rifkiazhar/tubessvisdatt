@@ -110,5 +110,5 @@ case_select = Select(options = col_list[2:], value='Total Cases', title='Cases')
 case_select.on_change('value',update_fitur)
 
 
-layout=row(WidgetBox(case_select,region_selection),fig)
+layout=row(WidgetBox(case_select,region_selection))
 curdoc().add_root(layout)
