@@ -32,7 +32,7 @@ data.shape
 
 datasett = data [['Date', 'Location', 'New Cases', 'Total Cases', 'Total Deaths', 'Total Recovered']]
 
-datasett["Date"] = pd.to_datetime(datasett["Date"])
+datasett['Date'] = pd.to_datetime(datasett['Date'])
 
 datasett.head()
 
@@ -60,18 +60,20 @@ def create_data(region,cases):
     colors.append(Spectral6)
     labels.append(region)
 
-    new_src = ColumnDataSource(datasett= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
+    new_source = ColumnDataSource(datasett= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
 
-    return new_src
+    return new_source
 
-def plot(src, cases):
+def plot(source, cases):
 
   fig = figure(x_axis_type='datetime',
                plot_width=900, plot_height=450,
                title = 'Visualization Covid19 in Indonesian',
                x_axis_label= 'Date', y_axis_label= 'Cases')
+
+  fig.line('x', 'y', color='color', source = source, line_width = 3, line_alpha = 0.6)
   
-  tooltips_region = [
+  tooltips = [
                      ('Date', '@date{%F}'),
                      ('New Cases', '@new cases'),
                      ('Total Cases', '@total cases'),
@@ -79,24 +81,24 @@ def plot(src, cases):
                      ('Total Recovered', '@total_recovered')
                     ]
 
-  fig.add_tools(HoverTool(tooltips=tooltips_region, formatters= {'@date' : 'datetime'}))
+  fig.add_tools(HoverTool(tooltips=tooltips, formatters= {'@date' : 'datetime'}))
 
   return fig
 
 def update_region(attr, old, new):
   region_plot = [region_selection.labels[i] for i in region_selection.active]
 
-  new_src = create_data(region_plot,cases.value)
-  new_src.datasett.update(new_src.datasett)
+  new_source = create_data(region_plot,cases.value)
+  new_source.datasett.update(new_source.datasett)
 
 def update_fitur(attr, old, new):
    region_plot = [region_selection.labels[i] for i in region_selection.active]
   
    cases = cases.value
 
-   new_src = create_data(region_plot, cases)
+   new_source = create_data(region_plot, cases)
 
-   src.data.update(new_src.data)
+   source.data.update(new_source.data)
 
 region_selection = CheckboxGroup(labels=region, active=[0])
 region_selection.on_change('active', update_region)
