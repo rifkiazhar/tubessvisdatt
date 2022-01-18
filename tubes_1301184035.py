@@ -54,7 +54,7 @@ def create_data(region,cases):
   colors = []
   labels = []
 
-  for i, region in enumerate(region):
+ # for i, region in enumerate(region):
     df = datasett[datasett['Location'] == region].reset_index(drop= True)
 
     x = list(df['Date'])
@@ -66,9 +66,9 @@ def create_data(region,cases):
     colors.append(Spectral6)
     labels.append(region)
 
-    source = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
+    indonesia_case = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
 
-    return source
+  #  return source
 
 #membuat figure plot
 fig = figure(x_axis_type='datetime',
