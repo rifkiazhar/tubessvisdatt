@@ -83,8 +83,6 @@ fig.line('Date', 'Total Cases',
                   color='#CE1141', legend_label='Total Kasus di Indonesia',
                   source=indonesia_case)
 
-fig.legend.location = 'top_left'
-
 #definisikan tooltips
 tooltips= [
                      ('Date', '@date{%F}'),
