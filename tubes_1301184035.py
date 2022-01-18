@@ -29,10 +29,6 @@ dataset.head()
 #jumlah baris dan kolom dataset
 dataset.shape
 
-#
-dataset = dataset[dataset['Location'] == 'Indonesia']
-
-
 dataset = dataset [['Date', 'Location', 'New Cases', 'Total Cases', 'Total Deaths', 'Total Recovered']]
 dataset['Date'] = pd.to_datetime(dataset['Date'])
 dataset
@@ -102,7 +98,7 @@ def update_fitur(attr, old, new):
   
    case = case_select.value
 
-   new_source = create_data(region_plot, fitur)
+   source = create_data(region_plot, case)
 
    source.data.update(new_source.data)
 
