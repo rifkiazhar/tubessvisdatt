@@ -22,30 +22,28 @@ from bokeh.layouts import WidgetBox, row, column
 from bokeh.models import Slider, Select
 from bokeh.models.widgets import Tabs, Panel, CheckboxGroup
 
-data = pd.read_csv('covid_19_indonesia_time_series_all.csv') #https://www.kaggle.com/hendratno/covid19-indonesia
+dataset = pd.read_csv('covid_19_indonesia_time_series_all.csv') #https://www.kaggle.com/hendratno/covid19-indonesia
 
-data.head()
+dataset.head()
 
 
 
-data.shape
+dataset.shape
 
-datasett = data [['Date', 'Location', 'New Cases', 'Total Cases', 'Total Deaths', 'Total Recovered']]
+dataset = dataset [['Date', 'Location', 'New Cases', 'Total Cases', 'Total Deaths', 'Total Recovered']]
 
-datasett['Date'] = pd.to_datetime(datasett['Date'])
-
-datasett.head()
+dataset['Date'] = pd.to_datetime(dataset['Date'])
 
 #membuat location agar tidak sama
-region = list(datasett.Location.unique())
+region = list(dataset.Location.unique())
 
 #List dari setiap kolom
-col_list = list(datasett.columns)
+col_list = list(dataset.columns)
 
 #
-datasett = data[data['Location'] == 'Indonesia']
-datasett['Island'] = 'Indonesia'
-indonesia_case = ColumnDataSource(datasett)
+dataset = dataset[dataset['Location'] == 'Indonesia']
+dataset['Island'] = 'Indonesia'
+indonesia_case = ColumnDataSource(dataset)
 
 def create_data(region,cases):
   x_list = []
@@ -54,7 +52,7 @@ def create_data(region,cases):
   labels = []
 
   for i, region in enumerate(region):
-    df = datasett[datasett['Location'] == region].reset_index(drop= True)
+    df = dataset[dataset['Location'] == region].reset_index(drop= True)
 
     x = list(df['Date'])
     y = list(df[cases])
@@ -65,18 +63,18 @@ def create_data(region,cases):
     colors.append(Spectral6)
     labels.append(region)
 
-    new_source = ColumnDataSource(datasett= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
+    new_source = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
 
     return new_source
 
-def plot(source, cases):
+#def plot(source, cases):
 
   fig = figure(x_axis_type='datetime',
                plot_width=900, plot_height=450,
                title = 'Visualization Covid19 in Indonesian',
-               x_axis_label= 'Date', y_axis_label= 'Cases')
+               x_axis_label= 'Date', y_axis_label= 'Total Kasus')
 
-  fig.line(x='x', y='y', color='color', source = source, line_width = 3, line_alpha = 0.6)
+  fig.line(x='x', y='y', color='color', source = indonesia_case, line_width = 3, line_alpha = 0.6)
   
   tooltips = [
                      ('Date', '@date{%F}'),
@@ -88,29 +86,29 @@ def plot(source, cases):
 
   fig.add_tools(HoverTool(tooltips=tooltips, formatters= {'@date' : 'datetime'}))
 
-  return fig
+ # return fig
 
 def update_region(attr, old, new):
   region_plot = [region_selection.labels[i] for i in region_selection.active]
 
-  new_source = create_data(region_plot,cases.value)
-  source.datasett.update(new_source.datasett)
+  new_source = create_data(region_plot,indonesia_case.value)
+  source.dataset.update(new_source.dataset)
 
 def update_fitur(attr, old, new):
    region_plot = [region_selection.labels[i] for i in region_selection.active]
   
-   cases = cases.value
+   indonesia_case = indonesia_case.value
 
-   new_source = create_data(region_plot, cases)
+   new_source = create_data(region_plot, indonesia_case)
 
    source.data.update(new_source.data)
 
 region_selection = CheckboxGroup(labels=region, active=[0])
 region_selection.on_change('active', update_region)
 
-cases = Select(options = col_list[2:], value='Total Cases', title='Cases')
-cases.on_change('value',update_fitur)
+case_select = Select(options = col_list[2:], value='Total Cases', title='Cases')
+case_select.on_change('value',update_fitur)
 
 
-layout=row(WidgetBox(cases,region_selection))
+layout=row(WidgetBox(case_select,region_selection),fig)
 curdoc().add_root(layout)
