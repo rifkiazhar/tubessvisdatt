@@ -40,7 +40,7 @@ dataset.head()
 # Kasus untuk seluruh Indonesia
 indonesia = dataset[dataset['Location'] == 'Indonesia']
 indonesia['Island'] = 'Indonesia'
-indonesia_case = ColumnDataSource(indonesia)
+source = ColumnDataSource(indonesia)
 
 #membuat location agar tidak sama
 region = dataset.Location.unique().tolist()
@@ -54,7 +54,7 @@ def create_data(region,cases):
   colors = []
   labels = []
 
- # for i, region in enumerate(region):
+  for i, region in enumerate(region):
     df = datasett[datasett['Location'] == region].reset_index(drop= True)
 
     x = list(df['Date'])
@@ -66,9 +66,9 @@ def create_data(region,cases):
     colors.append(Spectral6)
     labels.append(region)
 
-    indonesia_case = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
+    source = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
 
-  #  return source
+    return source
 
 #membuat figure plot
 fig = figure(x_axis_type='datetime',
@@ -77,7 +77,7 @@ fig = figure(x_axis_type='datetime',
                x_axis_label= 'Date', y_axis_label= 'Total Kasus')
 
 
-#fig.yaxis.formatter = NumeralTickFormatter(format="00") 
+fig.yaxis.formatter = NumeralTickFormatter(format="00") 
 
 fig.line('Date', 'Total Cases',
                   color='#CE1141', legend_label='Total Kasus di Indonesia',
