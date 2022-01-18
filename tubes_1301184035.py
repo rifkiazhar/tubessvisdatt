@@ -42,6 +42,11 @@ region = list(datasett.Location.unique())
 #List dari setiap kolom
 col_list = list(datasett.columns)
 
+#
+datasett = data[data['Location'] == 'Indonesia']
+datasett['Island'] = 'Indonesia'
+source = ColumnDataSource(datasett)
+
 def create_data(region,cases):
   x_list = []
   y_list = []
