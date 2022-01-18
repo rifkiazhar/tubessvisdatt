@@ -70,8 +70,9 @@ def plot(source, cases):
                plot_width=900, plot_height=450,
                title = 'Visualization Covid19 in Indonesian',
                x_axis_label= 'Date', y_axis_label= 'Cases')
-
-  fig.line('x', 'y', color='color', source = source, line_width = 3, line_alpha = 0.6)
+   fig.circle(x='x',y='y',source=source,fill_alpha=0.8, color=dict(field='region',
+              transform=color_mapper),legend='region')
+  fig.line(x='x', y='y', color='color', source = source, line_width = 3, line_alpha = 0.6)
   
   tooltips = [
                      ('Date', '@date{%F}'),
