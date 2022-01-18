@@ -87,7 +87,7 @@ def update_region(attr, old, new):
   region_plot = [region_selection.labels[i] for i in region_selection.active]
 
   new_src = create_data(region_plot,cases.value)
-  src.datasett.update(new_src.datasett)
+  new_src.datasett.update(new_src.datasett)
 
 def update_fitur(attr, old, new):
    region_plot = [region_selection.labels[i] for i in region_selection.active]
