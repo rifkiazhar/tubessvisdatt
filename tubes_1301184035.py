@@ -26,13 +26,16 @@ dataset = pd.read_csv('covid_19_indonesia_time_series_all.csv') #https://www.kag
 
 dataset.head()
 
-
-
+#jumlah baris dan kolom dataset
 dataset.shape
 
-dataset = dataset [['Date', 'Location', 'New Cases', 'Total Cases', 'Total Deaths', 'Total Recovered']]
+#
+dataset = dataset[dataset['Location'] == 'Indonesia']
 
+
+dataset = dataset [['Date', 'Location', 'New Cases', 'Total Cases', 'Total Deaths', 'Total Recovered']]
 dataset['Date'] = pd.to_datetime(dataset['Date'])
+dataset
 
 #membuat location agar tidak sama
 region = list(dataset.Location.unique())
@@ -40,10 +43,6 @@ region = list(dataset.Location.unique())
 #List dari setiap kolom
 col_list = list(dataset.columns)
 
-#
-dataset = dataset[dataset['Location'] == 'Indonesia']
-dataset['Island'] = 'Indonesia'
-indonesia_case = ColumnDataSource(dataset)
 
 def create_data(region,cases):
   x_list = []
@@ -63,9 +62,9 @@ def create_data(region,cases):
     colors.append(Spectral6)
     labels.append(region)
 
-    new_source = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
+    source = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
 
-    return new_source
+    return source
 
 #def plot(source, cases):
 
@@ -75,7 +74,11 @@ def create_data(region,cases):
                x_axis_label= 'Date', y_axis_label= 'Total Kasus')
 
   fig.line(x='x', y='y', color='color', source = indonesia_case, line_width = 3, line_alpha = 0.6)
+
+  #definisikan legend 
+  fig.legend.location = 'top_left'
   
+  #definisikan tooltips
   tooltips = [
                      ('Date', '@date{%F}'),
                      ('New Cases', '@new cases'),
@@ -91,15 +94,15 @@ def create_data(region,cases):
 def update_region(attr, old, new):
   region_plot = [region_selection.labels[i] for i in region_selection.active]
 
-  new_source = create_data(region_plot,indonesia_case.value)
+  new_source = create_data(region_plot,case_select.value)
   source.dataset.update(new_source.dataset)
 
 def update_fitur(attr, old, new):
    region_plot = [region_selection.labels[i] for i in region_selection.active]
   
-   indonesia_case = indonesia_case.value
+   case = case_select.value
 
-   new_source = create_data(region_plot, indonesia_case)
+   new_source = create_data(region_plot, fitur)
 
    source.data.update(new_source.data)
 
