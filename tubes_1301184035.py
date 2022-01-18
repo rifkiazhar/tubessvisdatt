@@ -37,11 +37,6 @@ dataset = dataset [['Date', 'Location', 'New Cases', 'Total Cases', 'Total Death
 dataset['Date'] = pd.to_datetime(dataset['Date'])
 dataset.head()
 
-# Kasus untuk seluruh Indonesia
-indonesia = dataset[dataset['Location'] == 'Indonesia']
-indonesia['Island'] = 'Indonesia'
-source = ColumnDataSource(indonesia)
-
 #membuat location agar tidak sama
 region = dataset.Location.unique().tolist()
 
@@ -76,12 +71,13 @@ fig = figure(x_axis_type='datetime',
                title = 'Visualization Covid19 in Indonesian',
                x_axis_label= 'Date', y_axis_label= 'Total Kasus')
 
+source = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
 
 fig.yaxis.formatter = NumeralTickFormatter(format="00") 
 
 fig.line('Date', 'Total Cases',
                   color='#CE1141', legend_label='Total Kasus di Indonesia',
-                  source=indonesia_case)
+                  source=source)
 
 #definisikan tooltips
 tooltips= [
