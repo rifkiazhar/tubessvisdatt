@@ -61,7 +61,7 @@ def create_data(region,cases):
 
     indonesia_case = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
 
-    return source
+    return indonesia_case
 
 #membuat fig : plot
   fig = figure(x_axis_type='datetime',
