@@ -10,6 +10,7 @@ Original file is located at
 #Data handing
 import pandas as pd
 import numpy as np
+import rasterio 
 
 #Bokeh libraries
 #from bokeh.io import curdoc
