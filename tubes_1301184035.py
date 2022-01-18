@@ -45,7 +45,7 @@ col_list = list(datasett.columns)
 #
 datasett = data[data['Location'] == 'Indonesia']
 datasett['Island'] = 'Indonesia'
-source = ColumnDataSource(datasett)
+indonesia_case = ColumnDataSource(datasett)
 
 def create_data(region,cases):
   x_list = []
