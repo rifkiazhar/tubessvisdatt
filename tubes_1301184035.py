@@ -59,7 +59,7 @@ def create_data(region,cases):
     colors.append(Spectral6)
     labels.append(region)
 
-    source = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
+    indonesia_case = ColumnDataSource(dataset= {'x':x_list, 'y':y_list, 'color':colors, 'label':labels})
 
     return source
 
